@@ -1,0 +1,164 @@
+---
+title: "Lab 4"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Set-up
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+```
+
+## Loading in data
+
+```{r}
+#| message: false
+avocado <- read_csv(here::here("supporting_artifacts", "Lab4", "avocado.csv")) |> 
+  rename(small = `4046`, large = `4225`, xlarge = `4770`)
+```
+
+## Summary of dataset
+
+The dataset summarizes the sales of small, medium, and large avocados sold in cities and regions. The data is further sectioned off by conventional or organic avocados sold. The average price for each avocado can also be found in the data along with the total volume of avocados sold. Observations start from 2013 until 2018 displaying sales of Hass avocados.
+
+## Cleaning Data
+
+```{r}
+regions <- data.frame(region = c("Midsouth", "Northeast", "Plains", "SouthCentral", "Southeast","West", "GreatLakes"))
+major_region <- avocado |> 
+  semi_join(regions, by = c("region" = "region"))
+```
+
+## Most organic, small Hass avocados in 2017
+
+```{r}
+major_region |> 
+  filter(year == "2017", type == "organic") |> 
+  group_by(region) |> 
+  summarize(tot_small = sum(small)) |> 
+  slice_max(tot_small)
+```
+
+The most small, organic Hass avocados sold in 2017 was in the West region.
+
+## Which month sold most avocados by volume?
+
+```{r}
+avocado |> 
+  separate(Date, c("Year", "Month", "Day"), sep = "-") |> 
+  group_by(Month) |> 
+  summarize(tot_vol = sum(`Total Volume`)) |> 
+  slice_max(tot_vol)
+```
+
+The highest volume sold was in the month of February.
+
+## Creating the metro dataframe
+
+```{r}
+nonmetro <- data.frame(region = c("Midsouth", "Northeast", "Plains", "SouthCentral", "Southeast","West", "California", "TotalUS", "GreatLakes", "NorthernNewEngland", "WestTexNewMexico"))
+metro <- avocado |> 
+  anti_join(nonmetro, by = c("region" = "region"))
+```
+
+## Popularity by metro area
+
+```{r}
+metro |> 
+  group_by(region) |> 
+  summarize(mean_vol = mean(`Total Volume`)) |> 
+  slice_max(mean_vol)
+```
+
+## Graph for 5 most popular metro areas
+
+```{r}
+mean_total <- metro |> 
+  group_by(region) |> 
+  summarize(mean_vol = mean(`Total Volume`)) |> 
+  arrange(desc(mean_vol))
+
+top_five <- head(mean_total, 5)
+
+semi_join(metro, top_five, by = 'region') |> 
+  ggplot(mapping = aes(x = region, y = `Total Volume`)) +
+  geom_boxplot() + 
+  labs(title = "Total Popularity by metro area", xlab = "Region (city)"
+       , ylab = "Average of total volume") +
+  geom_jitter() + 
+  scale_y_log10()  
+
+```
+
+The 5 metro areas that sold the most total avocados were Los Angeles, New York,\
+Dallas Ft Worth, Phoenix Tucsonand Houston.
+
+Head function from: https://datascienceparichay.com/article/r-dataframe-first-n-rows/#:\~:text=You%20can%20use%20the%20head,to%20the%20head()%20function.&text=If%20you%20do%20not%20pass,of%20the%20dataframe%20by%20default.
+
+## Creating dataset for california avocados
+
+```{r}
+ca_city = data.frame(city = c("LosAngeles", "SanDiego", "Sacramento", "SanFrancisco")) 
+
+ca_prices <- avocado |> 
+  semi_join(ca_city, by = c("region" = "city")) 
+```
+
+## Working with CA avocados - table
+
+```{r}
+ca_prices |> 
+  pivot_wider(names_from = "type", values_from = "AveragePrice") |> 
+  group_by(region) |> 
+  summarize(across(.cols = conventional:organic, .fns = mean, na.rm = TRUE)) |> 
+  mutate(diff = organic-conventional)
+```
+
+## Working with CA avocados - graph
+
+```{r}
+ca_prices |> 
+  pivot_wider(names_from = "type", values_from = "AveragePrice") |> 
+  group_by(region) |> 
+  summarize(across(.cols = conventional:organic, .fns = mean, na.rm = TRUE)) |> 
+  mutate(diff = organic-conventional) |> 
+  ggplot(mapping = aes(x = region, y = diff)) +
+  geom_point() +
+  labs(title = "DIfference in average price per avocado for 4 major CA cities", x = "Cities in California", y = "Difference in average price per avocado")
+```
+
+The California city with the highest difference between average price of organic and conventional was San Francisco while the smallest difference was Los Angeles.
+
+## Reshaping
+
+```{r}
+#| message: false
+ca_graph <- ca_prices |> 
+  group_by(region, type) |> 
+  mutate(across(.cols = small:xlarge, .fns = mean)) |> 
+  pivot_longer(cols = (small:xlarge), names_to = 'size', values_to = 'average_sales') 
+  
+```
+
+```{r}
+ggplot(data = ca_graph, mapping = aes(x = region, y = average_sales, fill = factor(size, levels = c("small", "large", "xlarge")))) +
+  geom_bar(position = 'fill', stat = 'identity') + 
+  labs(Title = 'Graph', x = 'Region of CA', y = 'Proportion of Mean Avocados Sold', fill = "Avocado Size") +
+  facet_wrap(~ type) +
+  guides(x = guide_axis(n.dodge = 2)) 
+```
+
+Guide function found in https://ggplot2.tidyverse.org/reference/guide_axis.html.
+
+Reordering stack found in https://stackoverflow.com/questions/47025828/change-the-order-of-stacked-fill-columns-in-ggplot2.
