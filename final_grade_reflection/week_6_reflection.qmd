@@ -1,0 +1,10 @@
+---
+title: "Week 6 Reflection"
+author: "Jun Noh"
+format: pdf
+editor: visual
+---
+
+## Week 6 Reflection
+
+I think at this point in the quarter I am at a solid B to B+, I believe I have demonstrated the majority of the learning targets through Week 6 proficiently. Some examples of my proficiency in these learning targets are WD-1 and WD-6 which I exhibited in Lab 4. Other targets such as mutating joins (WD-5) I demonstrated during the preview activity for Week 4. During Week 3 I mentioned my weaknesses were mostly due to data visualization and summarization, however I think I am more than capable of using the tools in this class to achieve those learning targets now. Examples of this include DVS-2 which I displayed in Lab 5 by using factors so the legend corresponded with the order of lines on the graph. Additionally, I calculated average weight for the genus variable in Lab 5 which displays DVS-4. I have also been revising my thinking trying to implement my learning from revisions to other areas of my labs/challenges. Moreover, I attempt to do revisions every chance possible which I think shows my commitment to revised thinking. As for extending thinking I believe I have taken some steps in the right direction within my challenges as well as trying different approaches to certain problems. However, I think creativity is still something I lack in which I want to continue to work towards. As a group member, I have been coming to class with preview activities completed and actively participate within the group to help finish tasks. My peer reviews for code have also shown my contribution to a respectful classroom learning community as I try to help my peers improve their code, but also point out the things I found great about their code. I am achieving the personal goals I set for myself as well which were learning/being able to code in R and work better in a group setting. I am not afraid to reach out to my group and ask them for help. Additionally, I think I have overcome the fear of giving an incorrect solution to the group which shows my improvement of working within a group setting.
