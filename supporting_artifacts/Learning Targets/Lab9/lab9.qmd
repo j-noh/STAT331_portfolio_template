@@ -1,0 +1,145 @@
+---
+title: "Lab 9"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Loading in libraries/dataset
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+library(broom)
+```
+
+```{r}
+#| message: false
+babyNames <- read_csv(here::here("supporting_artifacts", "Learning Targets", 
+                                 "lab9", "StateNames_A.csv")) |> 
+  rename(Sex = "Gender")
+```
+
+## **1. Summarizing & Visualizing the Number of Allisons**
+
+```{r}
+#| message: false
+babyNames |> 
+  mutate(Count = replace_na(Count, 0)) |> 
+  group_by(Sex, State) |> 
+  filter(Name == "Allison", Sex == "F") |> 
+  summarize(total = sum(Count))
+```
+
+## 1a.
+
+```{r}
+allisons <- babyNames |> 
+  group_by(Year) |> 
+  filter(Name == "Allison", Sex == "F") |> 
+  summarize(total = sum(Count)) 
+```
+
+## 1b.
+
+```{r}
+babyNames |> 
+  group_by(Year) |> 
+  filter(Name == "Allison", Sex == "F") |> 
+  summarize(total = sum(Count)) |> 
+  ggplot(mapping = aes(x = Year, y = total)) +
+    geom_line() +
+    labs(x = "Year", title = "Number of babies named Allison by year (Females only)") +
+    theme(axis.title.y = element_blank()) +
+    scale_x_continuous(limits = c(1997,2015))
+```
+
+# 2. Modeling the number of Allisons
+
+```{r}
+babyNames_lm <- allisons |> 
+  lm(total ~ Year, data = _)
+```
+
+```{r}
+#| message: false
+allisons |> 
+  ggplot(mapping = aes(x = Year, y = total)) + 
+    geom_line() +
+    stat_smooth(method = "lm") +
+    labs(x = "Year", title = "Linear Model of Number of Allisons born per Year") +
+    theme(axis.title.y = element_blank()) 
+```
+
+## 3. Regression Model
+
+```{r}
+tidy(babyNames_lm)
+```
+
+The predicted number of names of Allsions by year can be represented with the expression below.
+
+Predicted number of Allisons = 209,689.7609 - 101.5191(Year)
+
+## 4. Plotting Resiudals
+
+```{r}
+babyNames_lm |> 
+  augment() |> 
+  ggplot(mapping = aes(x = Year, y = .resid)) + 
+    geom_line() + 
+    labs(x = "Year", title = "Residuals by Year for the name Allison") +
+    theme(axis.title.y = element_blank()) 
+```
+
+The residuals increase slightly from 1997 to 1998 then steadily decrease after until 2008 where it begins to pick up again. There is a slight decrease again in 2011-2012 followed by a slight increase. Based on the graphs slight upward trend I believe the name Allison is somewhat popular now, but nowhere as popular as it once was in 1998.
+
+## 5. Spelling by State
+
+```{r}
+A_names <- babyNames |> 
+  filter(Name %in% c("Alan", "Allen", "Allan"), Sex == "M")
+```
+
+```{r}
+#| message: false
+A_names |> 
+  group_by(Year, Name) |> 
+  summarize(total = sum(Count)) |> 
+  ggplot(mapping = aes(x = Year, y = total, 
+                       color = fct_reorder2(Name, Year, total))) +
+    geom_line() + 
+    labs(x = "Year", title = "Number of babies by year and spelling of Alan", 
+         color = "Spelling of Alan") +
+    theme(axis.title.y = element_blank()) 
+```
+
+```{r}
+#| message: false
+A_names |> 
+  filter(State %in% c("CA", "PA"), Year == "2000") |> 
+  pivot_wider(names_from = Name, values_from = Count) |> 
+  mutate(across(Alan:Allan, .fns = replace_na, 0)) |> 
+  rowwise() |> 
+  mutate(total = sum(Alan, Allen, Allan))
+```
+
+```{r}
+#| message: false
+A_names |> 
+  filter(State %in% c("CA", "PA"), Year == "2000") |> 
+  pivot_wider(names_from = Name, values_from = Count) |> 
+  mutate(across(Alan:Allan, .fns = replace_na, 0)) |> 
+  rowwise() |> 
+  mutate(total = sum(Alan, Allen, Allan), Alan = Alan/total * 100, 
+         Allen = Allen/total * 100, Allan = Allan/total * 100, 
+         total = sum(Alan, Allen, Allan)) 
+```
