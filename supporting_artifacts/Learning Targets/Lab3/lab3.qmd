@@ -1,0 +1,166 @@
+---
+title: "LAB 3: Hip-hop"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Set-up
+
+```{r}
+#| message: false
+#|label: load-packages
+library(tidyverse)
+```
+
+## Loading in the Dataset
+
+```{r}
+#| message: false
+library(here)
+hip_hop <- read_csv(here::here("supporting_artifacts", "Learning Targets", "Lab3"
+                               , "hiphop.csv"))
+```
+
+## #1
+
+The dataset holds 10752 rows and 38 columns. The datatypes within the dataset are character and double. The purpose of the study was to ask students with an undergrad in linguistics, sociology, and music classes at University of Minnesota to define 64 AAE terms with respect to their background or familiarity with various music genres. Participants rated each word on a scale of 1 to 5, 1 being not at all familiar and 5 being very familiar with the term. There were 168 participants selected for the study.
+
+```{r}
+dim(hip_hop)
+```
+
+## #2
+
+Each row within the dataset is a unique definition of the one of the 64 unique words given by one of the 168 participants within the study.
+
+## #3
+
+Missing values were replaced with mean values. The benefits of replacing these values with the mean is that calculations would be less skewed and the statistics could easily be calculated since there are no character variables like NA. However, if the missing values are filled with the mean it could impact the precision of calculations since the display of outliers/unusual trends may not be recognizable.
+
+## #4
+
+```{r}
+hip_hop <- hip_hop |> 
+  mutate(as.factor(sex), as.factor(ethnic))
+```
+
+## #5
+
+```{r}
+n_distinct(hip_hop$word) 
+```
+
+There were 64 unique AAE words in the study.
+
+## #6
+
+```{r}
+hip_hop <- hip_hop |> 
+  mutate(ethnic=if_else(ethnic == "white", "white", "nonwhite"))
+```
+
+## #7
+
+```{r}
+hip_hop |> 
+  distinct(subj, sex, ethnic, .keepall = TRUE) |> 
+  count(sex, ethnic, sort = TRUE) 
+```
+
+```{r}
+hip_hop |> 
+  distinct(subj, .keep_all = TRUE) |> 
+  summarise(mean_age = mean(age))
+```
+
+The average age of participant were around 20.02 for the study. The majority of the participants were white and female (around 54%). With the next highest group being white males (around 26.2%).
+
+## #8
+
+```{r}
+#| layout-ncol: 2
+hip_hop |> 
+  distinct(subj, .keep_all = TRUE) |> 
+  ggplot(mapping = aes(x = age)) +
+    geom_histogram(binwidth = 3, fill = "black", col = "grey") +
+    labs(x = "Age", y = "Frequency of ages", title = "Distribution of ages by sex and ethnicity") +
+    facet_wrap(~ sex + ethnic)
+
+hip_hop |> 
+   distinct(subj, .keep_all = TRUE) |> 
+   ggplot(mapping = aes(x = age, y = sex)) +
+    geom_boxplot() +
+    labs(x = "Age", y = "Sex", title = "Age distribution by sex and ethnicity") + 
+    facet_wrap(~ ethnic)
+```
+
+## 9. Familiar Words by demographic
+
+```{r}
+hip_hop |> 
+  filter(age < 20) |> 
+  select(word, familiarity) |> 
+  group_by(word) |> 
+  summarize(avg_score = mean(familiarity)) |> 
+  slice_min(avg_score) 
+hip_hop |> 
+  filter(age < 20) |> 
+  select(word, familiarity) |> 
+  group_by(word) |> 
+  summarize(avg_score = mean(familiarity)) |> 
+  slice_max(avg_score) 
+```
+
+For people younger than 20 the most familiar and least familiar phrases on average were "off the hook" and "catch the vapors" respectively.
+
+```{r}
+hip_hop |> 
+  filter(ethnic == "nonwhite") |> 
+  select(word, familiarity) |> 
+  group_by(word) |> 
+  summarize(avg_score = mean(familiarity)) |> 
+  slice_max(avg_score)
+hip_hop |> 
+  filter(ethnic == "nonwhite") |> 
+  select(word, familiarity) |> 
+  group_by(word) |> 
+  summarize(avg_score = mean(familiarity)) |> 
+  slice_min(avg_score)
+```
+
+For nonwhite women the most familiar and least familiar phrases on average were "feel me" and "the nation" respectively.
+
+```{r}
+hip_hop |> 
+  filter(ethnic == "white", age > 30, sex == "Male") |> 
+  select(word, familiarity) |> 
+  group_by(word) |> 
+  summarize(avg_score = mean(familiarity)) |> 
+  slice_max(avg_score)
+hip_hop |> 
+  filter(ethnic == "white", age > 30, sex == "Male") |> 
+  select(word, familiarity) |> 
+  group_by(word) |> 
+  summarize(avg_score = mean(familiarity)) |> 
+  slice_min(avg_score)
+```
+
+For white males older than 30 the most familiar and least familiar phrases on average were "5-0" and "ay yo trip", "beezy", "break someone out", "catch the vapors", "crossroads", "crump", "dap" 1\
+, "dollar cab", "domino", "duckets", "face gator", "fetti", "finna", "ghostride", "good hair", "grip grain", "guap", "humming", "mail", "plex", "rollie", "saditty", "sweatbox", "trill", and "twurk"
+
+## 10. Study Subject
+
+```{r}
+hip_hop |> 
+  filter(city >= 10000 & city <= 60000, age >= 17 & age <= 23, ethnic == "white", sex == "Male") |> 
+  slice_max(bieber)
+```
+
+I think p17 was justin bieber because he is the only one with a score of 5 for naming up to five justin bieber songs. At the time of 2009 he wasn't too popular therefore, it would make sense if only he could name at least 5 songs of his.
