@@ -1,6 +1,6 @@
 ---
 title: "Final Grade Reflection"
-author: "Your Name Goes Here"
+author: "Jun Noh"
 format: pdf
 editor: visual
 ---
