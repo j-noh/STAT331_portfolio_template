@@ -3,6 +3,7 @@ title: "Preview Activity 4"
 author: "jun noh"
 format: 
   html:
+    self-contained: true
     code-fold: true
 editor: visual
 ---
@@ -15,14 +16,14 @@ library(tidyverse)
 library(here)
 ```
 
-## Loading in data
+## 1. Loading in data
 
 ```{r}
 #| message: false
-cereal <- read_csv(here::here("supporting_artifacts", "Preview_Activity_4", "cereal.csv"))
+cereal <- read_csv(here::here("supporting_artifacts", "Learning Targets", "Preview_Activity_4", "cereal.csv"))
 ```
 
-## Pivoting
+## 2. Pivoting
 
 ```{r}
 cereals_long <- cereal |> 
@@ -30,7 +31,7 @@ cereals_long <- cereal |>
   pivot_longer(cols = c('protein', 'fat', 'fiber'), names_to = 'Nutrient', values_to = 'Amount')
 ```
 
-## joining data
+## 3. joining data
 
 ```{r}
 prof_info <- data.frame(
@@ -55,21 +56,21 @@ course_info <- data.frame(
 )
 ```
 
-## combining a and b
+## 4. combining a and b
 
 ```{r}
 prof_info |> 
   inner_join(prof_course, by = 'professor')
 ```
 
-## combining a and b
+## 5. combining a and b
 
 ```{r}
 prof_info |> 
   full_join(prof_course, by = 'professor')
 ```
 
-## combining b and c
+## 6. combining b and c
 
 ```{r}
 prof_course |> 

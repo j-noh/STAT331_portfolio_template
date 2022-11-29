@@ -5,6 +5,7 @@ execute:
   error: true
 format: 
   html:
+    self-contained: true
     toc: true
     toc-location: left
     code-fold: true
@@ -19,21 +20,22 @@ library(tidyverse)
 library(here)
 ```
 
-## Loading in data
+## 1. Loading in data
 
 ```{r}
 #| message: false
 # Code for question 1! 
-surveys <- read_csv(here::here("supporting_artifacts", "Lab5", "surveys.csv")) 
+surveys <- read_csv(here::here("supporting_artifacts", 
+                               "Learning Targets", "Lab5", "surveys.csv")) 
 ```
 
-## Cleaning
+## 2. Cleaning
 
 ```{r}
 surveys <- drop_na(surveys)
 ```
 
-## Revisiting Lab 2
+## 3. Revisiting Lab 2
 
 ```{r}
 ggplot(data = surveys, mapping = aes(x = weight, y = fct_reorder(species, weight, .desc = FALSE))) + 
@@ -45,7 +47,7 @@ ggplot(data = surveys, mapping = aes(x = weight, y = fct_reorder(species, weight
 
 Function for y axis label: https://www.tutorialspoint.com/how-to-change-the-y-axis-title-to-horizontal-using-ggplot2-in-r
 
-## Time-Series Plot
+## 4. Time-Series Plot
 
 ```{r}
 #| message: false
@@ -59,7 +61,7 @@ surveys |>
     theme(axis.title.y = element_blank())
 ```
 
-## Captures over the week
+## 5. Captures over the week
 
 ```{r}
 surveys |> 
@@ -71,7 +73,7 @@ surveys |>
     theme(axis.title.y = element_blank())
 ```
 
-## Collapsed graph
+## 6. Collapsed graph
 
 ```{r}
 #| message: false

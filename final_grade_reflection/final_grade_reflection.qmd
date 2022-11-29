@@ -8,3 +8,5 @@ editor: visual
 In this document, you make a data-based argument for the grade you've earned in this course. Your argument should include evidence from the supporting artifacts you've provided.
 
 ## The output document should be a PDF or a Word Document, as it should be a **maximum** of 2-pages.
+
+I believe I have earned an A in this class because I have been able to meet every learning target, challenge myself to make better documents, and have contributed to being a good classmate. In lab 4 #1 I met targets WD-1 and R-1. Target WD-6 was shown in lab 4 #9 and WD-4, WD-7 in lab 4 #10. WD-3 was shown in lab 4 \# 4. DVS-2 was in lab 5 #3 along with DVS-1 which was shown in lab 5 #4, 5, 6. DSM-2 was found in lab 9 #2, 3, 4. WD-5 was located in preview activity 4 #4-6. DVS-4 was in lab 9 #1

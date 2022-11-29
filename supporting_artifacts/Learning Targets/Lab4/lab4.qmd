@@ -5,6 +5,7 @@ execute:
   error: true
 format: 
   html:
+    self-contained: true
     toc: true
     toc-location: left
     code-fold: true
@@ -20,19 +21,20 @@ library(here)
 
 ```
 
-## Loading in data
+## 1. Loading in data
 
 ```{r}
 #| message: false
-avocado <- read_csv(here::here("supporting_artifacts", "Lab4", "avocado.csv")) |> 
+avocado <- read_csv(here::here("supporting_artifacts", 
+                               "Learning Targets", "Lab4", "avocado.csv")) |> 
   rename(small = `4046`, large = `4225`, xlarge = `4770`)
 ```
 
-## Summary of dataset
+## 2. Summary of dataset
 
 The dataset summarizes the sales of small, medium, and large avocados sold in cities and regions. The data is further sectioned off by conventional or organic avocados sold. The average price for each avocado can also be found in the data along with the total volume of avocados sold. Observations start from 2013 until 2018 displaying sales of Hass avocados.
 
-## Cleaning Data
+## 3. Cleaning Data
 
 ```{r}
 regions <- data.frame(region = c("Midsouth", "Northeast", "Plains", "SouthCentral", "Southeast","West", "GreatLakes"))
@@ -40,7 +42,7 @@ major_region <- avocado |>
   semi_join(regions, by = c("region" = "region"))
 ```
 
-## Most organic, small Hass avocados in 2017
+## 4. Most organic, small Hass avocados in 2017
 
 ```{r}
 major_region |> 
@@ -52,7 +54,7 @@ major_region |>
 
 The most small, organic Hass avocados sold in 2017 was in the West region.
 
-## Which month sold most avocados by volume?
+## 5. Which month sold most avocados by volume?
 
 ```{r}
 avocado |> 
@@ -64,7 +66,7 @@ avocado |>
 
 The highest volume sold was in the month of February.
 
-## Creating the metro dataframe
+## 6. Creating the metro dataframe
 
 ```{r}
 nonmetro <- data.frame(region = c("Midsouth", "Northeast", "Plains", "SouthCentral", "Southeast","West", "California", "TotalUS", "GreatLakes", "NorthernNewEngland", "WestTexNewMexico"))
@@ -72,7 +74,7 @@ metro <- avocado |>
   anti_join(nonmetro, by = c("region" = "region"))
 ```
 
-## Popularity by metro area
+## 7. Popularity by metro area
 
 ```{r}
 metro |> 
@@ -81,7 +83,7 @@ metro |>
   slice_max(mean_vol)
 ```
 
-## Graph for 5 most popular metro areas
+## 8. Graph for 5 most popular metro areas
 
 ```{r}
 mean_total <- metro |> 
@@ -106,7 +108,7 @@ Dallas Ft Worth, Phoenix Tucsonand Houston.
 
 Head function from: https://datascienceparichay.com/article/r-dataframe-first-n-rows/#:\~:text=You%20can%20use%20the%20head,to%20the%20head()%20function.&text=If%20you%20do%20not%20pass,of%20the%20dataframe%20by%20default.
 
-## Creating dataset for california avocados
+## 9. Creating dataset for california avocados
 
 ```{r}
 ca_city = data.frame(city = c("LosAngeles", "SanDiego", "Sacramento", "SanFrancisco")) 
@@ -115,7 +117,7 @@ ca_prices <- avocado |>
   semi_join(ca_city, by = c("region" = "city")) 
 ```
 
-## Working with CA avocados - table
+## 10. Working with CA avocados - table
 
 ```{r}
 ca_prices |> 
@@ -125,7 +127,7 @@ ca_prices |>
   mutate(diff = organic-conventional)
 ```
 
-## Working with CA avocados - graph
+## 11. Working with CA avocados - graph
 
 ```{r}
 ca_prices |> 
@@ -140,7 +142,7 @@ ca_prices |>
 
 The California city with the highest difference between average price of organic and conventional was San Francisco while the smallest difference was Los Angeles.
 
-## Reshaping
+## 12. Reshaping
 
 ```{r}
 #| message: false
