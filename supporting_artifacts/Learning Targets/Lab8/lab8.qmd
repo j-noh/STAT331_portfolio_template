@@ -1,0 +1,162 @@
+---
+title: "Lab8"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Loading in libraries
+
+```{r packages}
+#| include: false
+library(dplyr)
+library(glue)
+library(stringr)
+library(purrr)
+library(english)
+```
+
+## Loading in Data
+
+```{r}
+xmas <- read.csv("https://www.dropbox.com/s/e584pryn8evm1gz/xmas.csv?dl=1")
+```
+
+## 1. Functions from Practice Activity 8
+
+```{r pluralize-function}
+# Function that takes a noun and makes it plural
+# Arguments -- gift -- A string or vector of strings
+# Return -- A string or vector of strings with the pluralized words
+
+pluralize_gift <- function(gift){
+
+gift <- gift |> 
+  str_c("s", sep = "") |> 
+  str_replace("ys$", "ies") |> 
+  str_replace("ooses$", "eese")
+  
+return(gift)
+
+}
+```
+
+```{r phrase-function}
+make_phrase <- function(num_word, item, verb, adjective, location) {
+  
+  ## Step 1: Replace NAs with blank strings
+  verb <- str_replace_na(verb, "")
+  item <- str_replace_na(item, "")
+  adjective <- str_replace_na(adjective, "")
+  location <- str_replace_na(location, "")
+  
+  ## Step 2: If the day is larger than 1, the items need pluralized! 
+  if (num_word != "one"){
+    item <- (pluralize_gift(item))
+  } else {
+    item <- (item)
+  }
+  
+  ## Step 3: If the word starts with a vowel, add "an" to the beginning
+  if (num_word != "one"){
+    (str_squish(glue("{num_word} {adjective} {item} {verb} {location}")))
+  } else{
+    (str_squish(glue("a {adjective} {item} {verb} {location}")))
+  }
+  
+}
+```
+
+## 2. Singing the Song
+
+```{r}
+sing_line <- function(dataset, line, phrase_col){
+  
+  num_word <- ordinal(line)
+  
+  intro <- glue::glue("On the {num_word} day of Christmas, my true love sent to me: ")
+  
+    phrases <- dataset |>
+      pull( {{phrase_col}} )
+      phrases <- c(intro, phrases[line:1])
+    phrase <- if_else(line > 1, glue_collapse({phrases}, sep = "\n", last = " and\n"), glue_collapse({phrases}, sep = "\n"))
+    
+    return(phrase)
+}
+```
+
+## 3. Creating xmas2 for tests
+
+```{r}
+xmas2 <- xmas %>%
+  mutate(day.num = as.character(english::english(Day)
+                                ), 
+    Full.Phrase = pmap_chr(
+      list(num_word = day.num,
+           item = Gift.Item,
+           verb = Verb,
+           adjective = Adjective,
+           location = Location),
+      make_phrase
+      )
+  )
+```
+
+## 4. A small test
+
+```{r}
+xmas2 |>
+sing_line(line = 2, phrase_col = Full.Phrase)
+```
+
+## 5. A larger test
+
+```{r}
+map_chr(1:12, ~ sing_line(xmas2, .x, Full.Phrase)) |>
+  str_c(collapse = "\n") |>
+  cat()
+```
+
+## 6. Putting it all Together
+
+```{r}
+xmas2 <- xmas |>
+  mutate(
+    day.num = as.character(english::english(Day)), 
+    Full.Phrase = pmap_chr(.l = list(num_word = day.num, 
+                                     item = Gift.Item, 
+                                     verb = Verb, 
+                                     adjective = Adjective, 
+                                     location = Location), 
+                           .f = make_phrase)
+  )
+
+map_chr(1:12, ~sing_line(xmas2, .x, Full.Phrase)) |>
+  str_c(collapse = "\n") |>
+  cat()
+```
+
+## 7. Challenge - Option 2
+
+```{r}
+xmas2 <- xmas |>
+  mutate(
+    day.num = as.character(english::english(Day)), 
+    Full.Phrase = pmap_chr(.l = list(num_word = day.num, 
+                                     item = Gift.Item, 
+                                     verb = Verb, 
+                                     adjective = Adjective, 
+                                     location = Location), 
+                           .f = make_phrase)
+  )
+
+map_chr(1:12, ~sing_line(xmas2, .x, Full.Phrase)) |>
+  str_c(collapse = "\n\n") |>
+  cat()
+```

@@ -1,0 +1,122 @@
+---
+title: "Lab 7"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Set-up
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+```
+
+## 1. Loading in data
+
+```{r}
+#| message: false
+fish <- read_csv(here::here("supporting_artifacts", "Learning Targets"
+                            , "Lab7", "BlackfootFish.csv"))
+```
+
+## 2. Summarizing missing data
+
+```{r}
+fish |> 
+  summarize(across(.cols = everything(), .fns = ~sum(is.na(.))))
+```
+
+There are 1796 observations missing all under the weight variable.
+
+## 3. Visualizing Missing Data
+
+```{r}
+#| message: false
+fish |> 
+  mutate(tripNames = ifelse(trip ==1, "Trip 1", "Trip 2")) |> 
+  group_by(year, tripNames, section) |> 
+  summarize(missingCount = sum(is.na(weight))) |> 
+  ggplot(mapping = aes(x = year, y = missingCount, fill = section)) +
+    geom_col() + 
+    facet_wrap(~tripNames) +
+    labs(title = "Missing value counts by trip, section, and year", 
+         fill = "Section of Blackfoot River") +
+    theme(axis.title.y = element_blank()) +
+    theme(axis.title.x = element_blank())
+```
+
+## 4. Writing a function/adding stops
+
+```{r}
+rescale_01 <- function(vec){
+  stopifnot(is.numeric(vec),
+            length(vec) > 1)
+  
+  range <- range(vec, na.rm = TRUE) 
+  min <- range[1]
+  max <- range[2]
+  return((vec-min)/(max-min))
+}
+```
+
+## 5. Performing a simple test
+
+```{r}
+x <- c(1:25, NA)
+
+rescale_01(x)
+```
+
+## 6. Performing a more difficult test
+
+```{r}
+fish_rescale <-fish |> 
+  mutate(rescaled_length = rescale_01(length))
+```
+
+## 7. Length vs Rescaled length
+
+```{r}
+#| layout-ncol: 2
+fish_rescale |> 
+  ggplot(mapping = aes(x = length)) +
+    geom_density() + 
+    labs(title = "Length in mms") +
+    theme(axis.title.y = element_blank())
+
+fish_rescale |> 
+  ggplot(mapping = aes(x = rescaled_length)) +
+    geom_density() + 
+    labs(title = "Rescaled length(0-1") +
+    theme(axis.title.y = element_blank())
+```
+
+## 8. Incorporating variables
+
+```{r}
+rescale_column <- function(vec, variables){
+  stopifnot(is.data.frame(vec))
+  
+  fish |> 
+    mutate(
+      across(
+        .cols = {{variables}},
+        .fns = rescale_01))
+}
+```
+
+## 9. Another function test
+
+```{r}
+fish |> 
+  rescale_column(length:weight)
+```
