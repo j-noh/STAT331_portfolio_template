@@ -1,13 +1,16 @@
 ---
 title: "Practice Activity 9"
 author: "Jun Noh"
-format: html
+format: 
+  html:
+     self-contained: true
 editor: visual
 ---
 
 ## Loading in
 
 ```{r}
+#| message: false
 library(tidyverse)
 library(broom)
 library(here)
@@ -16,6 +19,7 @@ library(here)
 ## 1. Regression
 
 ```{r}
+#| message: false
 animals <- read_csv(here::here("supporting_artifacts", "Learning Targets", "Practice_Activity_9", "mystery_animal.csv"))
 ```
 
@@ -75,7 +79,7 @@ my_weights <- as.data.frame(my_weights)
 
 ```
 
-## 4b. 
+## 4b.
 
 ```{r}
 my_weights |> 

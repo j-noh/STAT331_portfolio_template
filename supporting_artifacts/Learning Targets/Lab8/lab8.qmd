@@ -5,6 +5,7 @@ execute:
   error: true
 format: 
   html:
+    self-contained: true
     toc: true
     toc-location: left
     code-fold: true
