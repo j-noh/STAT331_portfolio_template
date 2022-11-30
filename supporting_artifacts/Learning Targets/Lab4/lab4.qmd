@@ -137,7 +137,8 @@ ca_prices |>
   mutate(diff = organic-conventional) |> 
   ggplot(mapping = aes(x = region, y = diff)) +
   geom_point() +
-  labs(title = "DIfference in average price per avocado for 4 major CA cities", x = "Cities in California", y = "Difference in average price per avocado")
+  labs(title = "DIfference in average price per avocado for 4 major CA cities", 
+       x = "Cities in California", y = "Difference in average price per avocado")
 ```
 
 The California city with the highest difference between average price of organic and conventional was San Francisco while the smallest difference was Los Angeles.
