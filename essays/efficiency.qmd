@@ -3,3 +3,7 @@ title: "The Power of Efficiency"
 format: html
 editor: visual
 ---
+
+## The power of efficiency
+
+I believe the definition of efficiency in regards to data science/statistical computing is limiting the use of repetitive lines of code and using tools such as functions or iteration to get rid of certain cases of repetition. Other aspects of efficiency in statistical computing include using modern/updated tools and using the simplest code/tools possible to finish a job. I like to think of efficiency as jobs carried out with fewer lines of code is better and also refraining from repeating yourself by creating functions or intermediate objects. Efficiency allows data scientists to save time on writing long lines of code because they are able to use simpler tools, it also allows your code to be more readable and reproducible since others would be less confused if your lines of code are clear and well written. I encountered efficiency the most when creating functions or intermediate objects to pipe into ggplot or other functions.

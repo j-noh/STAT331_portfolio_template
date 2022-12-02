@@ -3,3 +3,9 @@ title: "My Growth as a Data Scientist"
 format: html
 editor: visual
 ---
+
+## Growth as a data scientist
+
+My biggest improvement as a data scientist was learning what models to use and why as well as making those models clear and understandable. For example, throughout the course we plotted categorical and quantitative variables. We also learned which graph was best suited for each variable that we wanted to plot. At the beginning of the course one of my personal goals was to become better at visualizing data, so I monitored my progress on this aspect more precisely. Two artifacts that exhibited my growth within this topic was lab 5 #4, 5, 6 and challenge 4 #3. I believe lab 5 showed my ability to work with different graphs and data types to produce graphs that display the things I want in order to display specific areas of the dataset. In challenge 4 I was able to make my graphs clearer with annotations as well as scaling to show how average avocado prices varied in four major cities in California. Both these artifacts show how I can now make graphs with various data types using various graphs and also make those graphs clear for readers.
+
+Another aspect of data science I saw significant improvement in was data manipulation such as joining two datasets together or changing columns to rows and visa versa. I feel as if this tool is important to data cleaning and part of being a data scientist, but prior to this class I had no knowledge of how to carry out such tasks. I think I exhibited these data manipulation tools in lab 4 #3, 6, 12 to create easier datasets to work around so I could find things such as the region with the greatest avocado sales in a specific year. I think this artifact shows my proficiency in this specific area because I now understand how and when to manipulate data in order to accomplish certain tasks while before I had no knowledge of how to work with datasets and combine them in order for them to carryout specific tasks.

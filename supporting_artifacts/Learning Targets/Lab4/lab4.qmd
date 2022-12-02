@@ -104,7 +104,7 @@ semi_join(metro, top_five, by = 'region') |>
 ```
 
 The 5 metro areas that sold the most total avocados were Los Angeles, New York,\
-Dallas Ft Worth, Phoenix Tucsonand Houston.
+Dallas Ft Worth, Phoenix Tucson and Houston.
 
 Head function from: https://datascienceparichay.com/article/r-dataframe-first-n-rows/#:\~:text=You%20can%20use%20the%20head,to%20the%20head()%20function.&text=If%20you%20do%20not%20pass,of%20the%20dataframe%20by%20default.
 

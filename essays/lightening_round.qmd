@@ -3,3 +3,25 @@ title: "Lightening Round Essays"
 format: html
 editor: visual
 ---
+
+## Lightning Round
+
+-   Finish the sentence with another student\'s name: \"If \[Student\] doesn\'t earn an A, then nobody should, because...\" Explain your choice and your reasoning
+
+    If Michelle doesn\'t earn an A, then nobody should, because she is well versed in the things we do in class and was readily available to help the group. I chose Michelle because she knew a lot about R and would go over little things to try and perfect her quarto document.
+
+-   What was the most difficult part of the class for you? List a general topic, a specific problem, a kind of work we did, etc. and explain why.
+
+    Data visualization, this aspect of statistics has always been a gray area for me because I have a hard time visualizing data or understanding the specific graph to use.
+
+-   What was the easiest part of the class for you? Explain why.
+
+    I think the easiest part of the class was revising my thinking. I think making mistakes and learning from them has been very beneficial to me as a student so accepting others criticisms and suggestions and then utilizing them was easy for me.
+
+-   What part of the class surprised or interested you the most? Explain why.
+
+    The flexibility of R and tidyverse was very interesting to me as there were a variety of ways to carry out the same task. I also found tidyverse to be a very helpful and interesting package that I have never used before but glad I got to.
+
+-   Give one piece of advice to a student just beginning a quarter of STAT 331 that will help them be successful in learning.
+
+    Be prepared to leave your comfort zone, a lot of aspects of the class may be new but doable as long as you are diligent in your work.
