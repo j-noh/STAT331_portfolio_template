@@ -1,0 +1,87 @@
+---
+title: "Challenge 4"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Set-up
+
+```{r}
+#| message: false
+library(tidyverse)
+library(here)
+
+```
+
+## 1. Loading in data
+
+```{r}
+#| message: false
+avocado <- read_csv(here::here("supporting_artifacts", 
+                        "Extended Thinking", "Challenge 4", "avocado.csv")) |> 
+  rename(small = `4046`, large = `4225`, xlarge = `4770`)
+```
+
+## 2. Creating dataset for california avocados
+
+```{r}
+ca_city = data.frame(city = c("LosAngeles", "SanDiego", "Sacramento", "SanFrancisco")) 
+
+ca_prices <- avocado |> 
+  semi_join(ca_city, by = c("region" = "city")) 
+```
+
+First we create/load in a dataset for household prices in these 4 California cities. The prices I found were median listing prices and were listed on realtor.com.
+
+SD: https://www.realtor.com/realestateandhomes-search/San-Diego_CA/overview
+
+Sacramento: https://www.realtor.com/realestateandhomes-search/Sacramento_CA/overview
+
+LA: https://www.realtor.com/realestateandhomes-search/Los-Angeles_CA/overview
+
+SF: https://www.realtor.com/realestateandhomes-search/San-Francisco_CA/overview
+
+```{r}
+#| message: false
+ca_graph <- ca_prices |> 
+  group_by(region, type) |> 
+  summarize(across(.cols = small:xlarge, .fns = mean)) |> 
+  pivot_longer(cols = (small:xlarge), names_to = 'size', values_to = 'average_sales') 
+  
+```
+
+```{r}
+house_prices = data.frame(region = c("LosAngeles", "SanDiego", "Sacramento","SanFrancisco"), house_price = c(1000000, 899900, 485000, 1300000))
+
+millenials <- ca_graph |> 
+  inner_join(house_prices, by = 'region')
+```
+
+## 3. House Prices and avocados
+
+```{r}
+#| message: false
+millenials |> 
+  group_by(region, house_price) |> 
+  ggplot(mapping = aes(x = house_price, y = average_sales, color = region)) +
+  geom_point() + 
+  labs(title = "Average Avocado sales(scaled log10) by house price in CA cities", 
+       x = "House Prices") +
+  scale_y_log10() + 
+  annotate("text", y = 1e+02, x = 550000, label = "Sacramento", size = 4) +
+  annotate("text", y = 1e+04, x = 800000, label = "San Diego", size = 4) +
+  annotate("text", y = 1e+02, x = 1100000, label = "Los Angeles", size = 4) +
+  annotate("text", y = 1e+04, x = 1200000, label = "San Francisco", size = 4) +
+  theme(axis.title.y = element_blank(), legend.position = "none")
+
+```
+
+As the prices of houses rise so does the number of average sales increase for avocados. Therefore, the higher the cost of the house the more likely people will be willing to buy more avocados. There is a slight discrepancy as it appears that LA purchases the most avocados on average although the prices of houses in LA are a little less than SF. This may be due to the fact that SF has an increased standard of living therefore avocado prices may be higher dissuading aggressive purchases in avocados.

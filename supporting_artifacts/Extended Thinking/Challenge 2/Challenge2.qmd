@@ -1,0 +1,76 @@
+---
+title: "Challenge 2"
+author: "Jun Noh"
+execute: 
+  error: true
+format: 
+  html:
+    self-contained: true
+    toc: true
+    toc-location: left
+    code-fold: true
+editor: visual
+---
+
+## Set Up
+
+```{r}
+#| message: false
+#|label: load-packages
+
+library(here)
+library(tidyverse)
+library(ggridges)
+```
+
+## Loading in data
+
+```{r}
+#| message: false
+surveys <- read_csv(here::here("supporting_artifacts", "Extended Thinking", 
+                               "Challenge 2", "surveys.csv"))
+```
+
+## Challenges-medium
+
+```{r medium}
+ggplot(data = surveys, mapping = aes(x = weight, y= species )) + 
+  geom_density_ridges(bandwidth = 20) +
+  labs(x = "Weight (grams)", y = "Species of animals")
+```
+
+## Challenges- Spicy
+
+```{r spicy}
+ggplot(data = surveys, mapping = aes(x = weight, y = species, color = genus)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  labs(x = "Weight (grams)", y = "Species of animals") + 
+  scale_color_manual(values = c("tomato", "black", "blue", "red", "green", "orange", "yellow", "purple"))
+  
+```
+
+## Challenges-hot
+
+```{r hot}
+ggplot(data = surveys, mapping = aes(x = weight, y = species, color = genus)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  labs(x = "Weight (grams)", y = "Species of animals") + 
+  scale_color_manual(values = c("tomato", "black", "blue", "red", "green", "orange", "yellow", "purple")) +
+  annotate("text", y = 1, x = 245, label = "Neotoma", size = 3) +
+  annotate("text", y = 2, x = 245, label = "Chaetodipus", size = 3) +
+  annotate("text", y = 3, x = 245, label = "Peromyscus", size = 3) +
+  annotate("text", y = 4, x = 245, label = "Perognathus", size = 3) +
+  annotate("text", y = 5, x = 245, 
+           label = "Reithrodontomys", size = 3) +
+  annotate("text", y = 6, x = 245, label = "Sigmodon", size = 3) +
+  annotate("text", y = 7, x = 245, label = "Onychomys", size = 3) +
+  annotate("text", y = 8, x = 245, label = "Peromyscus", size = 3) +
+  annotate("text", y = 9, x = 245, 
+           label = "Reithrodontomys", size = 3) +
+  annotate("text", y = 10, x = 245, label = "Dipodomys", size = 3) +
+  annotate("text", y = 11, x = 245, label = "Dipodomys", size = 3) +
+  annotate("text", y = 12, x = 245, label = "Chaetodipus", size = 3) +
+  annotate("text", y = 13, x = 245, label = "Dipodomys", size = 3) +
+  annotate("text", y = 14, x = 245, label = "Onychomys", size = 3) +
+  theme(legend.position = "None")
+```

@@ -29,5 +29,8 @@ Preview Activity 4
 ### Demonstration of Continued Learning/Revisions
 
 ### Demonstration of Extended Thinking
+Challenge 2  
+Challenge 4  
+Challenge 9  
 
 ### Demonstration of Peer Support
