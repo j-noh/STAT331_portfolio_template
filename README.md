@@ -8,27 +8,26 @@ See instructions for creating your final portfolio [here](https://docs.google.co
 Final Reflection
 
 ## Essay Responses
-Growth as a Data Scientist
-The power of efficiency
-Lightning Round
+Growth as a Data Scientist  
+The power of efficiency  
+Lightning Round  
 
 ## Supporting Artifacts 
 
 ### Demonstration of Learning Targets
-Challenge 4
-Challenge 9
-Lab 3
-Lab 4
-Lab 5
-Lab 7
-Lab 8
-Lab 9
-Practice Activity 9
-Preview Activity 4
+Challenge 4  
+Challenge 9  
+Lab 3  
+Lab 4  
+Lab 5  
+Lab 7  
+Lab 8  
+Lab 9  
+Practice Activity 9  
+Preview Activity 4  
 
-### Demonstration of Continued Learning
+### Demonstration of Continued Learning/Revisions
 
-#### Extending My Thinking
+### Demonstration of Extended Thinking
 
-### Growth as a Team Member
-
+### Demonstration of Peer Support
