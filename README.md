@@ -34,3 +34,6 @@ Challenge 4
 Challenge 9  
 
 ### Demonstration of Peer Support
+Discord Questions  
+Peer Code Review  
+Group Questions  

@@ -13,4 +13,8 @@ editor: visual
 
 ## Peer Code Review
 
+![](images/paste-D8920BA4.png)
+
 ## Group Questions
+
+![](images/paste-95E02658.png)
