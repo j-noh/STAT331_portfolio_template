@@ -28,8 +28,8 @@ Preview Activity 4
 
 ### Demonstration of Continued Learning/Revisions
 Lab 3 Revisions  
-Lab 4 Revisions  
-Challenge 7  
+Challenge 4 Revisions  
+Challenge 7 Revisions  
 
 ### Demonstration of Extended Thinking
 Challenge 2  
