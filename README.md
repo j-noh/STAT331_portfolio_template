@@ -27,6 +27,9 @@ Practice Activity 9
 Preview Activity 4  
 
 ### Demonstration of Continued Learning/Revisions
+Lab 3 Revisions  
+Lab 4 Revisions  
+Challenge 7  
 
 ### Demonstration of Extended Thinking
 Challenge 2  
